@@ -16,7 +16,7 @@ public class OrderClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(order)
                 .when()
-                .post("/api/orders");
+                .post(API_ORDERS);
     }
 
     @Step("Создание заказа без авторизации")
@@ -25,7 +25,7 @@ public class OrderClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(order)
                 .when()
-                .post("/api/orders");
+                .post(API_ORDERS);
     }
 
     @Step("Получение списка заказов авторизованного пользователя")
@@ -34,7 +34,7 @@ public class OrderClient extends BaseApiClient {
         return given()
                 .spec(getReqSpecToken(accessToken))
                 .when()
-                .get("/api/orders");
+                .get(API_ORDERS);
     }
 
     @Step("Получение списка заказов без авторизации")
@@ -42,7 +42,7 @@ public class OrderClient extends BaseApiClient {
         return given()
                 .spec(getReqSpecJSON())
                 .when()
-                .get("/api/orders");
+                .get(API_ORDERS);
     }
 
     @Step("Получение bearer-токена авторизованного пользователя")
@@ -51,7 +51,7 @@ public class OrderClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/login")
+                .post(API_AUTH_LOGIN)
                 .jsonPath()
                 .getString("accessToken");
     }

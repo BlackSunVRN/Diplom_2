@@ -3,6 +3,7 @@ package ru.yandex.practicum;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.practicum.stellaburgers.api.client.UserClient;
@@ -25,6 +26,15 @@ public class UserErrorsTest {
     public void init() {
         user = getRandomUser();
         userClient = new UserClient();
+    }
+
+    @After
+    public void deleteUser() {
+        try {
+            userClient.deleteUser(user);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Пользователь не создан. Все ок.");
+        }
     }
 
     @Test

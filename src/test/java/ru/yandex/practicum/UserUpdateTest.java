@@ -3,6 +3,7 @@ package ru.yandex.practicum;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.practicum.stellaburgers.api.client.UserClient;
@@ -25,6 +26,11 @@ public class UserUpdateTest {
         userClient = new UserClient();
     }
 
+    @After
+    public void deleteUser() {
+        userClient.deleteUser(user);
+    }
+
     @Test
     @DisplayName("Изменение почты и пароля пользователя")
     public void userEmailPasswordUpdateTest() {
@@ -39,7 +45,8 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(newEmail, newPassword);
+        user.setEmail(newEmail);
+        user.setPassword(newPassword);
     }
 
     @Test
@@ -55,7 +62,7 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(updUser);
+        user = updUser;
     }
 
     @Test
@@ -73,7 +80,7 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(user.getEmail(), newPassword);
+        user.setPassword(newPassword);
     }
 
     @Test
@@ -91,7 +98,7 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(newEmail, user.getPassword());
+        user.setEmail(newEmail);
     }
 
     @Test
@@ -107,7 +114,7 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(newEmail, user.getPassword());
+        user.setEmail(newEmail);
     }
 
     @Test
@@ -123,7 +130,7 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(user.getEmail(), newPassword);
+        user.setPassword(newPassword);
     }
 
     @Test
@@ -139,7 +146,6 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertTrue(updateUserResponse.success);
-        userClient.deleteUser(user);
     }
 
     @Test
@@ -158,7 +164,5 @@ public class UserUpdateTest {
 
         SuccessResponse updateUserResponse = responseUpdate.as(SuccessResponse.class);
         assertFalse(updateUserResponse.success);
-
-        userClient.deleteUser(user);
     }
 }

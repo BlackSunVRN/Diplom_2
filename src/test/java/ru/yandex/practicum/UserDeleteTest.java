@@ -1,6 +1,7 @@
 package ru.yandex.practicum;
 
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.path.json.exception.JsonPathException;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class UserDeleteTest {
 
     @Test
     @DisplayName("Удаление зарегистрированного пользователя")
-    public void userDeleteTest() throws IllegalArgumentException {
+    public void userDeleteTest() {
         Response responseCreate = userClient.createUser(user);
         assertEquals(SC_OK, responseCreate.statusCode());
 
@@ -36,14 +37,12 @@ public class UserDeleteTest {
         Response responseGetUser = userClient.getUserInfo(user);
         assertEquals(SC_OK, responseGetUser.statusCode());
 
+        // Удаление пользователя
         Response responseDelete = userClient.deleteUser(user);
         assertEquals(SC_ACCEPTED, responseDelete.statusCode());
 
-        try {
-            userClient.getUserInfo(user);
-            System.out.println("Пользователь не удален");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Пользователь удален");
-        }
+        // Попытка логина под пользователем, которого удалили
+        Response responseLogin = userClient.loginUser(user.getEmail(), user.getPassword());
+        assertEquals(SC_UNAUTHORIZED, responseLogin.statusCode());
     }
 }

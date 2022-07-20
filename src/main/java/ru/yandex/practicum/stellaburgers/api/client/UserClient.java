@@ -15,7 +15,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/register");
+                .post(API_AUTH_REGISTER);
     }
 
     @Step("Создание пользователя только с почтой и паролем")
@@ -25,7 +25,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/register");
+                .post(API_AUTH_REGISTER);
     }
 
     @Step("Логин пользователя по почте и паролю")
@@ -35,7 +35,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/login");
+                .post(API_AUTH_LOGIN);
     }
 
     @Step("Получение bearer-токена авторизованного пользователя")
@@ -44,7 +44,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/login")
+                .post(API_AUTH_LOGIN)
                 .jsonPath()
                 .getString("accessToken");
     }
@@ -55,7 +55,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(user)
                 .when()
-                .post("/api/auth/login")
+                .post(API_AUTH_LOGIN)
                 .jsonPath()
                 .getString("refreshToken");
     }
@@ -66,17 +66,17 @@ public class UserClient extends BaseApiClient {
         return given()
                 .spec(getReqSpecToken(accessToken))
                 .when()
-                .delete("/api/auth/user");
+                .delete(API_AUTH_USER);
     }
 
     @Step("Удаление пользователя с ручным указанием почты и пароля")
     public void deleteUser(String email, String password) {
         User user = new User(email, password);
         String accessToken = getAccessToken(user);
-        given()
+            given()
                 .spec(getReqSpecToken(accessToken))
                 .when()
-                .delete("/api/auth/user");
+                .delete(API_AUTH_USER);
     }
 
     @Step("Получение информации об авторизованном пользователе")
@@ -85,7 +85,7 @@ public class UserClient extends BaseApiClient {
         return given()
                 .spec(getReqSpecToken(accessToken))
                 .when()
-                .get("/api/auth/user");
+                .get(API_AUTH_USER);
     }
 
     @Step("Обновление почты, пароля и имени авторизованного пользователя")
@@ -96,7 +96,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(userUpdate)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление почты, пароля авторизованного пользователя")
@@ -109,7 +109,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление почты и имени авторизованного пользователя")
@@ -122,7 +122,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление пароля и имени авторизованного пользователя")
@@ -135,7 +135,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление почты авторизованного пользователя")
@@ -147,7 +147,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление пароля авторизованного пользователя")
@@ -159,7 +159,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление имени авторизованного пользователя")
@@ -171,7 +171,7 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecTokenJSON(accessToken))
                 .body(requestParams)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 
     @Step("Обновление почты, пароля и имени без авторизации")
@@ -181,6 +181,6 @@ public class UserClient extends BaseApiClient {
                 .spec(getReqSpecJSON())
                 .body(userUpdate)
                 .when()
-                .patch("/api/auth/user");
+                .patch(API_AUTH_USER);
     }
 }
